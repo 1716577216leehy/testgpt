@@ -1,6 +1,6 @@
 // ⚠️ 请在此处填入你的初始/自定义域名
-const WORKER_BASE = "https://你的worker域名.workers.dev"; 
-const R2_PUBLIC_BASE = "https://你的R2自定义域名.com";
+const WORKER_BASE = "https://love-back.1716577216leehy.workers.dev"; 
+const R2_PUBLIC_BASE = "https://r2.990727.xyz";
 
 export async function api(action, data = {}) {
     const user = sessionStorage.getItem("currentUser");
