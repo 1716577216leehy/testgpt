@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8"><title>黄泽钰的小窝 - 登录</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>小窝入口</h1>
+            <button class="btn" onclick="handleLogin('黄泽钰')">我是 黄泽钰 🌸</button>
+            <button class="btn" style="background:var(--boy-blue)" onclick="handleLogin('李鸿运')">我是 李鸿运 ☁️</button>
+        </div>
+    </div>
+    <script type="module">
+        import { handleLogin } from './js/api.js';
+        window.handleLogin = handleLogin;
+    </script>
+</body>
+</html>
