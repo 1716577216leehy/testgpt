@@ -11,7 +11,7 @@ export default {
     const url = new URL(request.url);
     const R2 = env.LOVE_BUCKET;
 
-    // 1. 处理下载请求 (GET)
+    // 1. 处理图片下载请求 (GET)
     const fileKey = url.searchParams.get("file");
     const isDownload = url.searchParams.has("download");
     if (request.method === "GET" && fileKey) {
@@ -25,11 +25,11 @@ export default {
       return new Response(imageObj.body, { headers });
     }
 
-    // 2. 业务 API 处理 (POST)
+    // 2. 业务 API (POST)
     if (request.method === "POST" && url.pathname === "/api/data") {
       try {
         const body = await request.json();
-        const { action, user, content, type, date, image, id, groupName } = body;
+        const { action, user, content, image, id, groupName } = body;
         const getR2 = async (k, d = "[]") => { const o = await R2.get(k); return o ? JSON.parse(await o.text()) : JSON.parse(d); };
         const setR2 = async (k, d) => await R2.put(k, JSON.stringify(d));
         const bj = () => {
@@ -39,8 +39,7 @@ export default {
 
         if (action === 'getBirthdayState') return new Response(JSON.stringify({ lastSeenYear: (await getR2("user_config.json", "{}")).lastBirthdayStoryYear || 0 }), { headers: corsHeaders });
         if (action === 'markBirthdayStoryDone') {
-          const conf = await getR2("user_config.json", "{}");
-          conf.lastBirthdayStoryYear = bj().year;
+          const conf = await getR2("user_config.json", "{}"); conf.lastBirthdayStoryYear = bj().year;
           await setR2("user_config.json", conf);
           return new Response(JSON.stringify({ status: "ok" }), { headers: corsHeaders });
         }
@@ -73,13 +72,6 @@ export default {
         if (action === 'delPhoto') {
           let ps = await getR2("photos.json"); await R2.delete(`photo_${id}`);
           await setR2("photos.json", ps.filter(p => p.id !== id));
-          return new Response(JSON.stringify({ status: "ok" }), { headers: corsHeaders });
-        }
-        if (action === 'getWishes') return new Response(JSON.stringify(await getR2("birthday_wishes")), { headers: corsHeaders });
-        if (action === 'addWish') {
-          const ws = await getR2("birthday_wishes");
-          ws.push({ id: Date.now(), content, time: bj().full, status: 0 });
-          await setR2("birthday_wishes", ws);
           return new Response(JSON.stringify({ status: "ok" }), { headers: corsHeaders });
         }
         if (action === 'getGroups') return new Response(JSON.stringify(await getR2("album_groups", '["默认分组"]')), { headers: corsHeaders });
