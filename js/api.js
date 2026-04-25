@@ -1,4 +1,4 @@
-const API_BASE = "https://love-api.yourname.workers.dev";
+const API_BASE = "https://love-back.1716577216leehy.workers.dev";
 
 // 上传文件
 export async function uploadFile(file) {
