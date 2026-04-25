@@ -1,5 +1,5 @@
 const WORKER_BASE = "https://love-back.1716577216leehy.workers.dev"; 
-const R2_PUBLIC_BASE = "https://r2.990727.xyz";
+const R2_PUBLIC_BASE = "https://pub-0dfa381f30774594b756c154da0a2033.r2.dev";
 
 export async function apiRequest(action, data = {}) {
     const user = sessionStorage.getItem("currentUser");
